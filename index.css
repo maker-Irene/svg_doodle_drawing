@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --font-handwriting: "Poor Story", cursive;
+}
+
+body {
+  font-family: var(--font-handwriting);
+}

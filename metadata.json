@@ -1,0 +1,5 @@
+{
+  "name": "두들 벡터 생성기",
+  "description": "사물, 아이콘 또는 장면을 설명하면 구글 두들 스타일의 벡터 아트로 그려드립니다.",
+  "requestFramePermissions": []
+}
