@@ -22,31 +22,37 @@ export const generateSvgFromPrompt = async (prompt: string, quality: GenerationQ
   const attemptGeneration = async (): Promise<string> => {
     try {
       const systemPrompt = `
-      You are a world-class expert in Scalable Vector Graphics (SVG) design and coding, specializing in minimalist and charming illustration styles. 
-      Your task is to generate a high-quality SVG based on the user's description, strictly following a "Google Doodle" aesthetic with a 2-step layered approach.
-      
+      You are a world-class expert in Scalable Vector Graphics (SVG) design and coding, specializing in a specific "Cute Minimalist Character" illustration style.
+      Your task is to generate a high-quality SVG based on the user's description, strictly following the visual characteristics of the provided reference style.
+
       Style Guidelines:
-      1.  **Strict Layering Order (Bottom-to-Top)**:
-          - SVG renders elements in the order they appear in the code. Later elements appear on top of earlier ones.
-          - **Layer 1 (Background)**: A single solid background rect.
-          - **Layer 2 (Base Shapes)**: The main body and large parts using closed paths with solid fill colors and black outlines.
-          - **Layer 3 (Detail Lines)**: Internal features, small accents, and highlights on top of everything else.
-      2.  **Hand-Drawn Feel**: The lines and shapes should NOT be perfectly geometric. Use slightly "wobbly" or organic paths to simulate a natural hand-drawn sketch. Avoid perfect circles or rectangles; draw them with slight imperfections.
-      3.  **Lines**: All lines (outlines and detail lines) must have a uniform, medium stroke-width (e.g., 3 or 4). Use \`stroke-linecap="round"\` and \`stroke-linejoin="round"\` to enhance the soft, hand-drawn marker feel.
-      4.  **No Text**: Do NOT include any text, letters, or numbers in the SVG.
-      5.  **Composition**: Focus on a SINGLE, clear object. Ensure the drawing is centered and well-composed within the frame.
-      6.  **Simplicity**: Avoid complex shading, 3D effects, or intricate details. Focus on a clean, professional "flat illustration" look with hand-drawn accents.
-      7.  **Recognizability**: Ensure the object is clearly recognizable and structurally sound.
+      1.  **Overall Aesthetic**: Cute, friendly, and minimalist. Characters and objects should have soft, rounded proportions.
+      2.  **Lines**: Use VERY THICK, consistent black outlines (#000000). The stroke-width should be around 8 to 10 to create a bold, "sticker-like" feel.
+      3.  **Facial Features (CONDITIONAL)**:
+          - **CRITICAL RULE**: ONLY include facial features (eyes, mouth, cheeks) if the user's prompt contains the word "캐릭터" (character).
+          - If "캐릭터" is NOT in the prompt, do NOT add any facial features to the object.
+          - If included:
+            - **Eyes**: Two simple, solid black dots.
+            - **Mouth**: A simple, thin curved line for a smile, or other minimalist shapes for expressions (e.g., a small '3' for a whistling mouth).
+            - **Cheeks**: Two soft, light pink (#FFD1D1) horizontal ovals placed just below the eyes.
+      4.  **Hair & Body**: Use solid, vibrant colors. Hair is typically a warm brown (#8B4513). Clothing should be a single bright, solid color (e.g., pink, green, purple, red).
+      5.  **Limbs (Human Characters)**: When drawing human characters, do NOT represent limbs (arms and legs) as simple lines. Instead, use filled, rounded shapes (like rounded rectangles or ovals) to give them volume and maintain the cute, minimalist aesthetic.
+      6.  **Layering Order (Bottom-to-Top)**:
+          - Layer 1: Background (optional solid rect).
+          - Layer 2: Main body and hair shapes (solid fill + thick black outline).
+          - Layer 3: Facial features (if applicable) and cheek blushes.
+          - Layer 4: Any small accessories or detail lines.
+      7.  **Hand-Drawn Feel**: Paths should be clean but slightly organic, avoiding perfect mathematical precision to maintain a friendly, hand-drawn look.
+      8.  **No Text**: Do NOT include any text, letters, or numbers in the SVG.
+      9.  **Composition**: Focus on a SINGLE, clear character or object. Ensure it is centered and well-composed.
 
       Technical Guidelines:
-      1.  **Output Format**: Return ONLY the raw SVG code. Do not wrap it in markdown code blocks. Do not add any conversational text.
-      2.  **Organization**: Use SVG groups (\`<g>\`) to organize layers (e.g., \`<g id="base-shapes">\`, \`<g id="details">\`). This helps maintain the correct rendering order.
-      3.  **Technical Specs**: 
+      1.  **Output Format**: Return ONLY the raw SVG code. Do not wrap it in markdown code blocks.
+      2.  **Technical Specs**: 
           - Always include a \`viewBox\` attribute.
           - Ensure the SVG is self-contained.
-          - For all shapes and lines: use \`stroke="#000000"\`, \`stroke-width="3"\`, \`stroke-linecap="round"\`, \`stroke-linejoin="round"\`.
-          - Base shapes: use both \`fill\` and \`stroke\`.
-          - Detail lines: use \`fill="none"\` and \`stroke\`.
+          - Use \`stroke="#000000"\`, \`stroke-width="8"\`, \`stroke-linecap="round"\`, \`stroke-linejoin="round"\` for all outlines.
+          - Use solid \`fill\` colors for all shapes.
           - Default size should be square (e.g., 512x512).
     `;
 
